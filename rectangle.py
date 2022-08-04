@@ -6,19 +6,11 @@
 
 class Descriptor:
 
-    def __init__(self, value):
-        self.value = value
-
     def __get__(self, instance, owner):
-        return self.value
+        return instance.x * instance.y
 
     def __set__(self, instance, value):
-        if not isinstance(value, int):
-            raise AttributeError('int only')
-        self.value = value
-
-    def __delete__(self, instance):
-        raise AttributeError('cannot be deleted')
+        raise AttributeError()
 
 
 class Rectangle:
@@ -27,14 +19,12 @@ class Rectangle:
         self.x = x
         self.y = y
 
-    area = Descriptor(10)
+    area = Descriptor()
 
     def __str__(self):
         return f'X: {self.x}, Y: {self.y}'
 
 
 x = Rectangle(2, 5)
-print(x)
-x.area = '2000'
 print(x.area)
-print()
+
