@@ -1,35 +1,32 @@
-# Task
-# 1) Создайте дескриптор, который будет делать поля класса управляемые им
-# доступными только для чтения.
+# Task:
+# 2) Реализуйте функционал, который будет запрещать установку полей класса
+# любыми значениями, кроме целых чисел. Т.е., если тому или иному полю
+# попытаться присвоить, например, строку, то должно быть возбужденно
+# исключение.
 
 class Descriptor:
 
-    def __init__(self, value):
-        self.value = value
-
     def __get__(self, instance, owner):
-        return self.value
+        return instance.x * instance.y
 
     def __set__(self, instance, value):
-        raise AttributeError('Field is read-only')
+        if not isinstance(value, int):
+            raise AttributeError('int only')
+        self.value = value
 
-    def __delete__(self, instance):
-        raise AttributeError('Cannot be deleted')
 
+class Rectangle:
 
-class Student:
+    def __init__(self, x: int, y: int):
+        self.x = x
+        self.y = y
 
-    def __init__(self, name: str, surname: str):
-        self.name = name
-        self.surname = surname
-
-    country = Descriptor('Ukraine')
+    area = Descriptor()
 
     def __str__(self):
-        return f'{self.name} {self.surname}'
+        return f'X: {self.x}, Y: {self.y}'
 
 
-a = Student('John', 'Doe')
-print(a)
-print(a.country)
-a.country = 'USA'
+x = Rectangle(2, 5)
+print(x.area)
+
